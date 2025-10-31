@@ -7,10 +7,10 @@ import authRoutes from "./routes/authRoutes.js";
 dotenv.config();
 const app = express();
 
-// ✅ Strict and safe CORS setup
+// ✅ Correct CORS setup
 const allowedOrigins = [
-  "http://localhost:5173",               // for local dev
-  "https://password-reset98.netlify.app" // your deployed frontend
+  "http://localhost:5173",
+  "https://password-reset98.netlify.app",
 ];
 
 app.use(
@@ -28,17 +28,15 @@ app.use(
   })
 );
 
-// ✅ Handle preflight requests globally
+// ✅ Allow preflight requests (important)
 app.options("*", cors());
 
 app.use(express.json());
 
-// ✅ Routes
+// Routes
 app.use("/api/auth", authRoutes);
 
-// ✅ Connect DB
 connectDB();
 
-// ✅ Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
