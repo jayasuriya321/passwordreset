@@ -7,23 +7,21 @@ import authRoutes from "./routes/authRoutes.js";
 dotenv.config();
 const app = express();
 
-// ✅ Middleware
-app.use(express.json());
+// ✅ Allow Netlify frontend
 app.use(
   cors({
-    origin: [
-      "https://password-reset98.netlify.app", // ✅ your live frontend
-      "http://localhost:5173", // ✅ for local dev
-    ],
+    origin: ["https://password-reset98.netlify.app"], // your frontend URL
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
 
-// ✅ Routes
+app.use(express.json());
+
+// Routes
 app.use("/api/auth", authRoutes);
 
-// ✅ Connect DB & Start server
 connectDB();
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
