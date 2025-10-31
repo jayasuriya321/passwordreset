@@ -7,10 +7,10 @@ import authRoutes from "./routes/authRoutes.js";
 dotenv.config();
 const app = express();
 
-// ✅ Robust CORS setup
+// ✅ Strict and safe CORS setup
 const allowedOrigins = [
-  "http://localhost:5173",               // Local development (Vite)
-  "https://password-reset98.netlify.app" // Live frontend
+  "http://localhost:5173",               // for local dev
+  "https://password-reset98.netlify.app" // your deployed frontend
 ];
 
 app.use(
@@ -28,7 +28,7 @@ app.use(
   })
 );
 
-// ✅ Handle OPTIONS requests globally (important for CORS preflights)
+// ✅ Handle preflight requests globally
 app.options("*", cors());
 
 app.use(express.json());
