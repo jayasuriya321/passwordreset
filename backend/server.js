@@ -7,27 +7,38 @@ import authRoutes from "./routes/authRoutes.js";
 dotenv.config();
 const app = express();
 
-// ✅ FIXED CORS setup
+// ✅ Robust CORS setup
+const allowedOrigins = [
+  "http://localhost:5173",               // Local development (Vite)
+  "https://password-reset98.netlify.app" // Live frontend
+];
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",               // local development
-      "https://password-reset98.netlify.app" // your deployed frontend
-    ],
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
 
-app.options("*", cors()); // <-- Important for handling preflight requests
+// ✅ Handle OPTIONS requests globally (important for CORS preflights)
+app.options("*", cors());
 
 app.use(express.json());
 
-// Routes
+// ✅ Routes
 app.use("/api/auth", authRoutes);
 
+// ✅ Connect DB
 connectDB();
 
+// ✅ Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
