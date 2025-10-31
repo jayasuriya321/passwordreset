@@ -7,14 +7,20 @@ import authRoutes from "./routes/authRoutes.js";
 dotenv.config();
 const app = express();
 
-// ✅ Allow Netlify frontend
+// ✅ FIXED CORS setup
 app.use(
   cors({
-    origin: ["https://password-reset98.netlify.app"], // your frontend URL
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: [
+      "http://localhost:5173",               // local development
+      "https://password-reset98.netlify.app" // your deployed frontend
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
+
+app.options("*", cors()); // <-- Important for handling preflight requests
 
 app.use(express.json());
 
