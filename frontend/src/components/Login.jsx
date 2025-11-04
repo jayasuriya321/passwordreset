@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import API from "../api";
 
 export default function Login() {
@@ -62,6 +63,16 @@ export default function Login() {
             </span>
           </div>
 
+          {/* Forgot Password Link */}
+          <div className="text-right">
+            <Link
+              to="/forgot-password"
+              className="text-blue-600 text-sm hover:underline"
+            >
+              Forgot Password?
+            </Link>
+          </div>
+
           {/* Submit Button */}
           <button
             type="submit"
@@ -78,6 +89,19 @@ export default function Login() {
         {error && (
           <p className="text-red-600 text-center mt-4 font-medium">{error}</p>
         )}
+
+        {/* Register Link */}
+        <div className="text-center mt-6">
+          <p className="text-gray-700 text-sm">
+            New here?{" "}
+            <Link
+              to="/register"
+              className="text-blue-600 font-medium hover:underline"
+            >
+              Create Account
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
